@@ -155,3 +155,41 @@ BEGIN
 END//
 DELIMITER ;
 
+
+-- TEST VERİLERİ EKLEME
+-- Ürünler Tablosu
+INSERT INTO Urun (UrunID, UrunAdi, Fiyat, StokMiktari) VALUES
+(1, 'Laptop', 1500.00, 50),
+(2, 'Akıllı Telefon', 800.00, 30),
+(3, 'Tablet', 500.00, 20);
+
+-- Tedarikçiler Tablosu
+INSERT INTO Tedarikci (TedarikciID, TedarikciAdi, IletisimBilgisi) VALUES
+(1, 'ABC Bilgisayar', '123-456-7890'),
+(2, 'XYZ Elektronik', '987-654-3210');
+
+-- Müşteriler Tablosu
+INSERT INTO Musteri (MusteriID, MusteriAdi, IletisimBilgisi) VALUES
+(1, 'Ahmet Demir', '555-1234'),
+(2, 'Ayşe Yılmaz', '555-5678');
+
+-- Siparişler Tablosu
+INSERT INTO Siparis (SiparisID, MusteriID, SiparisTarihi, ToplamTutar) VALUES
+(1, 1, '2023-01-01', 2500.00),
+(2, 2, '2023-02-01', 1000.00);
+
+-- Sipariş Detayları Tablosu
+INSERT INTO SiparisDetay (SiparisDetayID, SiparisID, UrunID, Miktar) VALUES
+(1, 1, 1, 2),
+(2, 1, 2, 3),
+(3, 2, 3, 1);
+
+-- Stok Girişleri Tablosu
+INSERT INTO StokGiris (GirisID, UrunID, TedarikciID, GirisMiktari, GirisTarihi) VALUES
+(1, 1, 1, 10, '2023-01-01'),
+(2, 2, 2, 5, '2023-02-01');
+
+-- Stok Çıkışları Tablosu
+INSERT INTO StokCikis (CikisID, UrunID, SiparisID, CikisMiktari, CikisTarihi) VALUES
+(1, 1, 1, 1, '2023-01-02'),
+(2, 2, 2, 2, '2023-02-02');
