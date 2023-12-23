@@ -83,3 +83,23 @@ MODIFY COLUMN UrunAdi VARCHAR(100) NOT NULL;
 ALTER TABLE Tedarikci
 MODIFY COLUMN TedarikciAdi VARCHAR(100) NOT NULL;
 
+-- Stored Procedure'lar
+DELIMITER //
+
+CREATE PROCEDURE SiparisEkle 
+(IN MusteriID INT, IN SiparisTarihi DATE, IN ToplamTutar DECIMAL(10, 2))
+BEGIN
+    INSERT INTO Siparis (MusteriID, SiparisTarihi, ToplamTutar)
+    VALUES (MusteriID, SiparisTarihi, ToplamTutar);
+END //
+
+CREATE PROCEDURE StokGuncelle 
+(IN UrunID INT, IN YeniStokMiktari INT)
+BEGIN
+    UPDATE Urun
+    SET StokMiktari = YeniStokMiktari
+    WHERE UrunID = UrunID;
+END //
+
+DELIMITER ;
+
