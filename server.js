@@ -1,6 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import {getMusteri} from "./database.js"
 const app = express();
 const port = 3030;
 
@@ -14,7 +15,10 @@ app.use(express.json());
 // }));
 
 app.get("/", (req, res) => {
-    res.send('Hello guys');
+    
+    getMusteri();
+
+
 });
 
 
