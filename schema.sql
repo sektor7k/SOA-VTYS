@@ -64,3 +64,22 @@ CREATE TABLE StokCikis (
     FOREIGN KEY (UrunID) REFERENCES Urun(UrunID),
     FOREIGN KEY (SiparisID) REFERENCES Siparis(SiparisID)
 );
+
+-- Unique Kısıtları
+ALTER TABLE Tedarikci
+ADD CONSTRAINT UQ_TedarikciAdi UNIQUE (TedarikciAdi);
+
+ALTER TABLE Musteri
+ADD CONSTRAINT UQ_MusteriAdi UNIQUE (MusteriAdi);
+
+-- Default Kısıtları
+ALTER TABLE Urun
+MODIFY COLUMN Fiyat DECIMAL(10, 2) DEFAULT 0.0;
+
+-- Not Null Kısıtları
+ALTER TABLE Urun
+MODIFY COLUMN UrunAdi VARCHAR(100) NOT NULL;
+
+ALTER TABLE Tedarikci
+MODIFY COLUMN TedarikciAdi VARCHAR(100) NOT NULL;
+
