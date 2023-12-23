@@ -103,3 +103,28 @@ END //
 
 DELIMITER ;
 
+-- View'lar
+CREATE VIEW AktifSiparisler AS
+SELECT S.SiparisID, M.MusteriAdi, S.SiparisTarihi, S.ToplamTutar
+FROM Siparis S
+JOIN Musteri M ON S.MusteriID = M.MusteriID
+WHERE S.SiparisTarihi >= CURDATE();
+
+CREATE VIEW TedarikciDetaylari AS
+SELECT TedarikciID, TedarikciAdi, IletisimBilgisi
+FROM Tedarikci;
+
+CREATE VIEW UrunStokDurumu AS
+SELECT UrunID, UrunAdi, StokMiktari
+FROM Urun;
+
+CREATE VIEW YetersizStoklar AS
+SELECT UrunID, UrunAdi, StokMiktari
+FROM Urun
+WHERE StokMiktari < 10;
+
+CREATE VIEW SiparisDetaylari AS
+SELECT SD.SiparisDetayID, SD.SiparisID, U.UrunAdi, SD.Miktar
+FROM SiparisDetay SD
+JOIN Urun U ON SD.UrunID = U.UrunID;
+
