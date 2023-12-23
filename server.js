@@ -14,7 +14,7 @@ app.use(express.json());
 // }));
 
 app.get("/", (req, res) => {
-  sendByt();
+    res.send('Hello guys');
 });
 
 
