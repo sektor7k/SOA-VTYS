@@ -128,3 +128,30 @@ SELECT SD.SiparisDetayID, SD.SiparisID, U.UrunAdi, SD.Miktar
 FROM SiparisDetay SD
 JOIN Urun U ON SD.UrunID = U.UrunID;
 
+-- Kullanıcı Tanımlı Fonksiyonlar
+DELIMITER //
+
+CREATE FUNCTION ToplamSiparisTutariHesapla (SiparisID INT)
+RETURNS DECIMAL(10, 2)
+READS SQL DATA
+BEGIN
+    DECLARE ToplamTutar DECIMAL(10, 2);
+    SELECT SUM(Fiyat * Miktar) INTO ToplamTutar
+    FROM SiparisDetay
+    WHERE SiparisID = SiparisID;
+    RETURN ToplamTutar;
+END//
+
+
+CREATE FUNCTION StokMiktariKontrolEt (UrunID INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    DECLARE StokMiktari INT;
+    SELECT StokMiktari INTO StokMiktari
+    FROM Urun
+    WHERE UrunID = UrunID;
+    RETURN StokMiktari;
+END//
+DELIMITER ;
+
