@@ -165,13 +165,13 @@ INSERT INTO Urun (UrunID, UrunAdi, Fiyat, StokMiktari) VALUES
 
 -- Tedarikçiler Tablosu
 INSERT INTO Tedarikci (TedarikciID, TedarikciAdi, IletisimBilgisi) VALUES
-(1, 'ABC Bilgisayar', '123-456-7890'),
-(2, 'XYZ Elektronik', '987-654-3210');
+(1, 'ABC Bilgisayar', 'tedarikci@gmail.com'),
+(2, 'XYZ Elektronik', 'tedarikci2@gmail.com');
 
 -- Müşteriler Tablosu
 INSERT INTO Musteri (MusteriID, MusteriAdi, IletisimBilgisi) VALUES
-(1, 'Ahmet Demir', '555-1234'),
-(2, 'Ayşe Yılmaz', '555-5678');
+(1, 'Ahmet Demir', 'musteri@gmail.com'),
+(2, 'Ayşe Yılmaz', 'musteri2@gmail.com');
 
 -- Siparişler Tablosu
 INSERT INTO Siparis (SiparisID, MusteriID, SiparisTarihi, ToplamTutar) VALUES
