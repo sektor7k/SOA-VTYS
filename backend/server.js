@@ -1,7 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { urunEkle } from "./database.js"
+import { urunEkle, siparisEkle } from "./database.js"
 const app = express();
 const port = 3030;
 
@@ -20,14 +20,29 @@ app.post("/urunekle", async (req, res) => {
 
   try{
     const response = await urunEkle(urunAdi, urunFiyati, stokMiktari)
-    //console.log(response)
+    console.log(response)
+    return res.status(200).send({ success: response.success, message: response.message });
 
   }catch(err)
   {
     return res.status(500).send({ message: 'Server error', error: err });
   }
+});
 
 
+app.post("/siparisOlustur", async (req, res) => {
+
+  const { urunAdi, urunAdedi} = req.body;
+
+  try{
+    const response = await siparisEkle(urunAdi, urunAdedi)
+    console.log(response)
+    return res.status(200).send({ success: response.success, message: response.message });
+
+  }catch(err)
+  {
+    return res.status(500).send({ message: 'Server error', error: err });
+  }
 });
 
 

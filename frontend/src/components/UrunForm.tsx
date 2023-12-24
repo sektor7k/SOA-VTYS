@@ -12,7 +12,8 @@ export default function UrunForm() {
         }; 
 
         const response = await Request("urunekle",urunData);
-        //console.log(response)
+
+        console.log(response)
     
         
       };
@@ -23,7 +24,7 @@ export default function UrunForm() {
             <form className="max-w-sm mx-auto pt-52" action="" onSubmit={formUrunEkle}>
                 <div className="mb-5">
                     <label htmlFor="urunAdi" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ürün Adı</label>
-                    <input type="text" id="urunAdi" name="urunAdi" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="name@flowbite.com" required />
+                    <input type="text" id="urunAdi" name="urunAdi" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
                 </div>
                 <div className="mb-5">
                     <label htmlFor="urunFiyati" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ürün Fiyatı</label>

@@ -28,7 +28,7 @@ CREATE TABLE Musteri (
 CREATE TABLE Siparis (
     SiparisID INT PRIMARY KEY AUTO_INCREMENT,
     MusteriID INT,
-    SiparisTarihi DATE,
+    SiparisTarihi TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     ToplamTutar DECIMAL(10, 2) CHECK (ToplamTutar >= 0),
     FOREIGN KEY (MusteriID) REFERENCES Musteri(MusteriID)
 );

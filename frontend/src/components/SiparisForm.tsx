@@ -1,13 +1,30 @@
+import { Request } from "@/backend/api";
+
 export default function SiparisForm() {
+
+    const formSiparisOlustur = async (event: any) => {
+        event.preventDefault();
+        const formdata = new FormData(event.target);
+        const siparisData = {
+          urunAdi: formdata.get('urunAdi') as string, 
+          urunAdedi: formdata.get('urunAdedi') as string,
+        }; 
+
+        const response = await Request("siparisOlustur",siparisData);
+
+        console.log(response)
+    
+        
+      };
 
     return (
         <div className="bg-gray-900 h-screen">
 
 
-            <form className="max-w-sm mx-auto pt-52">
+            <form className="max-w-sm mx-auto pt-52" onSubmit={formSiparisOlustur}>
                 <div className="mb-5">
                     <label htmlFor="urunAdi" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ürün Adı</label>
-                    <input type="text" id="urunAdi" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="name@flowbite.com" required />
+                    <input type="text" id="urunAdi" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
                 </div>
 
                 <div className="mb-5">

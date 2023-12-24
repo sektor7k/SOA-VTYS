@@ -14,9 +14,27 @@ export async function urunEkle(urunAdi, urunFiyati, stokMiktari){
     try{
         const responseDb = await pool.query(`INSERT INTO urun (UrunAdi, Fiyat, StokMiktari)
         VALUES (?, ?, ?)`, [urunAdi, urunFiyati, stokMiktari]);
-        
+
+        return { success: true, message: 'Ürün eklendi' }
     }
     catch(err){
-        console.log("Error : "+ err)
+        return { success: false, message: 'urunEkle failed' }
+    }
+}
+
+
+export async function siparisEkle(urunAdi, urunAdedi){
+    try{
+        // const responseDb = await pool.query(`INSERT INTO siparis (MusteriID, ToplamTutar)
+        // VALUES (?, ?)`, [1, 200]);
+
+
+        const responseDb2 = await pool.query(`INSERT INTO siparisdetay (SiparisID, UrunID, Miktar)
+        VALUES (?, ?, ?)`, [5,21, 47]);
+
+        return { success: true, message: 'Sipariş Alındı' }
+    }
+    catch(err){
+        return { success: false, message: 'siparisEkle failed' }
     }
 }
