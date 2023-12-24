@@ -1,5 +1,4 @@
-import {Request, Request3} from "@/backend/api"
-import { useEffect } from "react";
+import {Request} from "@/backend/api"
 
 export default function UrunForm() { 
 
@@ -18,14 +17,6 @@ export default function UrunForm() {
     
         
       };
-
-      useEffect(()=>{
-        const urunler = async()=>{
-            const response = await Request3('urun')
-            console.log(response)
-        }
-        urunler()
-      },[])
 
     return (
         <div className="bg-gray-900 h-screen">
