@@ -30,16 +30,9 @@ CREATE TABLE Siparis (
     MusteriID INT,
     SiparisTarihi TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     ToplamTutar DECIMAL(10, 2) CHECK (ToplamTutar >= 0),
-    FOREIGN KEY (MusteriID) REFERENCES Musteri(MusteriID)
-);
-
--- Sipariş Detayları Tablosu
-CREATE TABLE SiparisDetay (
-    SiparisDetayID INT PRIMARY KEY AUTO_INCREMENT,
-    SiparisID INT,
     UrunID INT,
-    Miktar INT CHECK (Miktar >= 0),
-    FOREIGN KEY (SiparisID) REFERENCES Siparis(SiparisID),
+    Miktar INT,
+    FOREIGN KEY (MusteriID) REFERENCES Musteri(MusteriID),
     FOREIGN KEY (UrunID) REFERENCES Urun(UrunID)
 );
 
@@ -87,10 +80,10 @@ MODIFY COLUMN TedarikciAdi VARCHAR(100) NOT NULL;
 DELIMITER //
 
 CREATE PROCEDURE SiparisEkle 
-(IN MusteriID INT, IN SiparisTarihi DATE, IN ToplamTutar DECIMAL(10, 2))
+(IN MusteriID INT, IN SiparisTarihi DATE, IN ToplamTutar DECIMAL(10, 2), IN UrunID INT, IN Miktar INT)
 BEGIN
-    INSERT INTO Siparis (MusteriID, SiparisTarihi, ToplamTutar)
-    VALUES (MusteriID, SiparisTarihi, ToplamTutar);
+    INSERT INTO Siparis (MusteriID, SiparisTarihi, ToplamTutar, UrunID, Miktar)
+    VALUES (MusteriID, SiparisTarihi, ToplamTutar, UrunID, Miktar);
 END //
 
 CREATE PROCEDURE StokGuncelle 
@@ -123,11 +116,6 @@ SELECT UrunID, UrunAdi, StokMiktari
 FROM Urun
 WHERE StokMiktari < 10;
 
-CREATE VIEW SiparisDetaylari AS
-SELECT SD.SiparisDetayID, SD.SiparisID, U.UrunAdi, SD.Miktar
-FROM SiparisDetay SD
-JOIN Urun U ON SD.UrunID = U.UrunID;
-
 -- Kullanıcı Tanımlı Fonksiyonlar
 DELIMITER //
 
@@ -137,11 +125,10 @@ READS SQL DATA
 BEGIN
     DECLARE ToplamTutar DECIMAL(10, 2);
     SELECT SUM(Fiyat * Miktar) INTO ToplamTutar
-    FROM SiparisDetay
+    FROM Siparis
     WHERE SiparisID = SiparisID;
     RETURN ToplamTutar;
 END//
-
 
 CREATE FUNCTION StokMiktariKontrolEt (UrunID INT)
 RETURNS INT
@@ -155,41 +142,35 @@ BEGIN
 END//
 DELIMITER ;
 
-
 -- TEST VERİLERİ EKLEME
+
 -- Ürünler Tablosu
-INSERT INTO Urun (UrunID, UrunAdi, Fiyat, StokMiktari) VALUES
-(1, 'Laptop', 1500.00, 50),
-(2, 'Akıllı Telefon', 800.00, 30),
-(3, 'Tablet', 500.00, 20);
+INSERT INTO Urun (UrunAdi, Fiyat, StokMiktari) VALUES
+('Laptop', 1500.00, 50),
+('Akıllı Telefon', 800.00, 30),
+('Tablet', 500.00, 20);
 
 -- Tedarikçiler Tablosu
-INSERT INTO Tedarikci (TedarikciID, TedarikciAdi, IletisimBilgisi) VALUES
-(1, 'ABC Bilgisayar', 'tedarikci@gmail.com'),
-(2, 'XYZ Elektronik', 'tedarikci2@gmail.com');
+INSERT INTO Tedarikci (TedarikciAdi, IletisimBilgisi) VALUES
+('ABC Bilgisayar', 'tedarikci@gmail.com'),
+('XYZ Elektronik', 'tedarikci2@gmail.com');
 
 -- Müşteriler Tablosu
-INSERT INTO Musteri (MusteriID, MusteriAdi, IletisimBilgisi) VALUES
-(1, 'Ahmet Demir', 'musteri@gmail.com'),
-(2, 'Ayşe Yılmaz', 'musteri2@gmail.com');
+INSERT INTO Musteri (MusteriAdi, IletisimBilgisi) VALUES
+('Ahmet Demir', 'musteri@gmail.com'),
+('Ayşe Yılmaz', 'musteri2@gmail.com');
 
 -- Siparişler Tablosu
-INSERT INTO Siparis (SiparisID, MusteriID, SiparisTarihi, ToplamTutar) VALUES
-(1, 1, '2023-01-01', 2500.00),
-(2, 2, '2023-02-01', 1000.00);
-
--- Sipariş Detayları Tablosu
-INSERT INTO SiparisDetay (SiparisDetayID, SiparisID, UrunID, Miktar) VALUES
-(1, 1, 1, 2),
-(2, 1, 2, 3),
-(3, 2, 3, 1);
+INSERT INTO Siparis (MusteriID, SiparisTarihi, ToplamTutar, UrunID, Miktar) VALUES
+(1, '2023-01-01', 2500.00, 1, 2),
+(2, '2023-02-01', 1000.00, 2, 3);
 
 -- Stok Girişleri Tablosu
-INSERT INTO StokGiris (GirisID, UrunID, TedarikciID, GirisMiktari, GirisTarihi) VALUES
-(1, 1, 1, 10, '2023-01-01'),
-(2, 2, 2, 5, '2023-02-01');
+INSERT INTO StokGiris (UrunID, TedarikciID, GirisMiktari, GirisTarihi) VALUES
+(1, 1, 10, '2023-01-01'),
+(2, 2, 5, '2023-02-01');
 
 -- Stok Çıkışları Tablosu
-INSERT INTO StokCikis (CikisID, UrunID, SiparisID, CikisMiktari, CikisTarihi) VALUES
-(1, 1, 1, 1, '2023-01-02'),
-(2, 2, 2, 2, '2023-02-02');
+INSERT INTO StokCikis (UrunID, SiparisID, CikisMiktari, CikisTarihi) VALUES
+(1, 1, 1, '2023-01-02'),
+(2, 2, 2, '2023-02-02');
