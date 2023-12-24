@@ -1,22 +1,31 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import {getMusteri} from "./database.js"
+import { urunEkle } from "./database.js"
 const app = express();
 const port = 3030;
 
 app.use(cookieParser());
 app.use(express.json());
 
-// CORS ayarları
-// app.use(cors({
-//   origin: 'http://localhost:3000', // İstemcinin kökeni
-//   credentials: true // Kimlik bilgilerine izin ver
-// }));
+//CORS ayarları
+app.use(cors({
+  origin: 'http://localhost:3000', // İstemcinin kökeni
+  credentials: true // Kimlik bilgilerine izin ver
+}));
 
-app.get("/", (req, res) => {
-    
-    getMusteri();
+app.post("/urunekle", async (req, res) => {
+
+  const { urunAdi, urunFiyati, stokMiktari } = req.body;
+
+  try{
+    const response = await urunEkle(urunAdi, urunFiyati, stokMiktari)
+    //console.log(response)
+
+  }catch(err)
+  {
+    return res.status(500).send({ message: 'Server error', error: err });
+  }
 
 
 });

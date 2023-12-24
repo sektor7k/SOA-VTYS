@@ -10,10 +10,11 @@ const pool = mysql.createPool({
   database: process.env.MYSQL_DATABASE
 }).promise()
 
-export async function getMusteri(){
+export async function urunEkle(urunAdi, urunFiyati, stokMiktari){
     try{
-        const resultDb = await pool.query('SELECT * FROM tedarikci');
-        console.log(resultDb[0][0].IletisimBilgisi)
+        const responseDb = await pool.query(`INSERT INTO urun (UrunAdi, Fiyat, StokMiktari)
+        VALUES (?, ?, ?)`, [urunAdi, urunFiyati, stokMiktari]);
+        
     }
     catch(err){
         console.log("Error : "+ err)
