@@ -4,7 +4,7 @@ USE famas;
 
 -- Ürünler Tablosu
 CREATE TABLE Urun (
-    UrunID INT PRIMARY KEY,
+    UrunID INT PRIMARY KEY AUTO_INCREMENT,
     UrunAdi VARCHAR(100) NOT NULL,
     Fiyat DECIMAL(10, 2) DEFAULT 0.0,
     StokMiktari INT CHECK (StokMiktari >= 0)
@@ -12,21 +12,21 @@ CREATE TABLE Urun (
 
 -- Tedarikçiler Tablosu
 CREATE TABLE Tedarikci (
-    TedarikciID INT PRIMARY KEY,
+    TedarikciID INT PRIMARY KEY AUTO_INCREMENT,
     TedarikciAdi VARCHAR(100) NOT NULL,
     IletisimBilgisi VARCHAR(100)
 );
 
 -- Müşteriler Tablosu
 CREATE TABLE Musteri (
-    MusteriID INT PRIMARY KEY,
+    MusteriID INT PRIMARY KEY AUTO_INCREMENT,
     MusteriAdi VARCHAR(100) NOT NULL,
     IletisimBilgisi VARCHAR(100)
 );
 
 -- Siparişler Tablosu
 CREATE TABLE Siparis (
-    SiparisID INT PRIMARY KEY,
+    SiparisID INT PRIMARY KEY AUTO_INCREMENT,
     MusteriID INT,
     SiparisTarihi DATE,
     ToplamTutar DECIMAL(10, 2) CHECK (ToplamTutar >= 0),
@@ -35,7 +35,7 @@ CREATE TABLE Siparis (
 
 -- Sipariş Detayları Tablosu
 CREATE TABLE SiparisDetay (
-    SiparisDetayID INT PRIMARY KEY,
+    SiparisDetayID INT PRIMARY KEY AUTO_INCREMENT,
     SiparisID INT,
     UrunID INT,
     Miktar INT CHECK (Miktar >= 0),
@@ -45,7 +45,7 @@ CREATE TABLE SiparisDetay (
 
 -- Stok Girişleri Tablosu
 CREATE TABLE StokGiris (
-    GirisID INT PRIMARY KEY,
+    GirisID INT PRIMARY KEY AUTO_INCREMENT,
     UrunID INT,
     TedarikciID INT,
     GirisMiktari INT CHECK (GirisMiktari >= 0),
@@ -56,7 +56,7 @@ CREATE TABLE StokGiris (
 
 -- Stok Çıkışları Tablosu
 CREATE TABLE StokCikis (
-    CikisID INT PRIMARY KEY,
+    CikisID INT PRIMARY KEY AUTO_INCREMENT,
     UrunID INT,
     SiparisID INT,
     CikisMiktari INT CHECK (CikisMiktari >= 0),
