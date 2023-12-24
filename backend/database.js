@@ -23,16 +23,16 @@ export async function urunEkle(urunAdi, urunFiyati, stokMiktari){
 }
 
 
-export async function siparisEkle(urunAdi, urunAdedi){
+export async function siparisEkle(urunID, urunAdedi){
     try{
-        const responseDb = await pool.query(`INSERT INTO siparis (MusteriID, ToplamTutar)
-        VALUES (?, ?)`, [1, 200]);
+        
+        const resgetUrunID = await getUrunID(urunID);
+        const fiyat = resgetUrunID[0][0].Fiyat
 
+        const responseDb = await pool.query(`INSERT INTO siparis (MusteriID, ToplamTutar, UrunID, Miktar)
+        VALUES (?, ?, ?, ?)`, [1, fiyat*urunAdedi, urunID, urunAdedi]);
 
-        // const responseDb2 = await pool.query(`INSERT INTO siparisdetay (SiparisID, UrunID, Miktar)
-        // VALUES (?, ?, ?)`, [4,1, 47]);
-
-        return { success: true, message: 'Sipariş Alındı' }
+        return { success: true, message: 'Sipariş Alındı'}
     }
     catch(err){
         return { success: false, message: 'siparisEkle failed' }
@@ -46,5 +46,15 @@ export async function getUrun(){
     }
     catch(err){
         return { success: false, message: 'getUrun failed' }
+    }
+}
+
+export async function getUrunID(urunID){
+    try{
+        const responseDb = await pool.query('SELECT * FROM urun WHERE UrunID = ?',[urunID])
+        return responseDb
+    }
+    catch(err){
+        return { success: false, message: 'getUrunID failed' }
     }
 }

@@ -31,11 +31,11 @@ app.post("/urunekle", async (req, res) => {
 
 app.post("/siparisOlustur", async (req, res) => {
 
-  const { urunAdi, urunAdedi } = req.body;
+  const { urunID, urunAdedi } = req.body;
 
   try {
-    const response = await siparisEkle(urunAdi, urunAdedi)
-    console.log(response)
+    const response = await siparisEkle(urunID, urunAdedi)
+
     return res.status(200).send({ success: response.success, message: response.message });
 
   } catch (err) {
