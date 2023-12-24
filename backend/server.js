@@ -1,7 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { urunEkle, siparisEkle } from "./database.js"
+import { urunEkle, siparisEkle, getUrun } from "./database.js"
 const app = express();
 const port = 3030;
 
@@ -18,13 +18,12 @@ app.post("/urunekle", async (req, res) => {
 
   const { urunAdi, urunFiyati, stokMiktari } = req.body;
 
-  try{
+  try {
     const response = await urunEkle(urunAdi, urunFiyati, stokMiktari)
     console.log(response)
     return res.status(200).send({ success: response.success, message: response.message });
 
-  }catch(err)
-  {
+  } catch (err) {
     return res.status(500).send({ message: 'Server error', error: err });
   }
 });
@@ -32,15 +31,26 @@ app.post("/urunekle", async (req, res) => {
 
 app.post("/siparisOlustur", async (req, res) => {
 
-  const { urunAdi, urunAdedi} = req.body;
+  const { urunAdi, urunAdedi } = req.body;
 
-  try{
+  try {
     const response = await siparisEkle(urunAdi, urunAdedi)
     console.log(response)
     return res.status(200).send({ success: response.success, message: response.message });
 
-  }catch(err)
-  {
+  } catch (err) {
+    return res.status(500).send({ message: 'Server error', error: err });
+  }
+});
+
+app.get("/urun", async (req, res) => {
+
+  try {
+    const urunler = await getUrun()
+
+    return res.status(200).send(urunler[0])
+  }
+  catch (err) {
     return res.status(500).send({ message: 'Server error', error: err });
   }
 });

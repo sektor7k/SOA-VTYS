@@ -25,16 +25,26 @@ export async function urunEkle(urunAdi, urunFiyati, stokMiktari){
 
 export async function siparisEkle(urunAdi, urunAdedi){
     try{
-        // const responseDb = await pool.query(`INSERT INTO siparis (MusteriID, ToplamTutar)
-        // VALUES (?, ?)`, [1, 200]);
+        const responseDb = await pool.query(`INSERT INTO siparis (MusteriID, ToplamTutar)
+        VALUES (?, ?)`, [1, 200]);
 
 
-        const responseDb2 = await pool.query(`INSERT INTO siparisdetay (SiparisID, UrunID, Miktar)
-        VALUES (?, ?, ?)`, [5,21, 47]);
+        // const responseDb2 = await pool.query(`INSERT INTO siparisdetay (SiparisID, UrunID, Miktar)
+        // VALUES (?, ?, ?)`, [4,1, 47]);
 
         return { success: true, message: 'Sipariş Alındı' }
     }
     catch(err){
         return { success: false, message: 'siparisEkle failed' }
+    }
+}
+
+export async function getUrun(){
+    try{
+        const responseDb = await pool.query('SELECT * FROM urun')
+        return responseDb
+    }
+    catch(err){
+        return { success: false, message: 'getUrun failed' }
     }
 }
