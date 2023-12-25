@@ -1,15 +1,17 @@
 
 import { Request, Request3 } from "@/backend/api";
+import { useBackend } from "@/context/Api";
 import { useEffect, useState } from "react";
 
 export default function SiparisForm() {
 
-    const [urunler, setUrunler] = useState([{
-        UrunID: null,
-        UrunAdi: '',
-        Fiyat: '',
-        StokMiktari: null
-    }]);
+    const { urunler, getUrunler } = useBackend();
+
+    useEffect(() => {
+        getUrunler();
+    }, [])
+
+    
     const [urun, setUrun] = useState({
         UrunID: null,
         UrunAdi: '',
@@ -46,14 +48,7 @@ export default function SiparisForm() {
 
     };
 
-    useEffect(() => {
-        const urunler = async () => {
-            const response = await Request3('urun')
-            setUrunler(response)
 
-        }
-        urunler()
-    }, [])
 
     return (
         <div className="bg-gray-900 h-screen">
@@ -80,7 +75,7 @@ export default function SiparisForm() {
                     ))}
                 </select>
 
-                <div className="mb-5">
+                <div className="mb-5 mt-4">
                     <label htmlFor="urunAdedi" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ürün Adedi</label>
                     <input type="number" id="urunAdedi" name="urunAdedi" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
                 </div>
