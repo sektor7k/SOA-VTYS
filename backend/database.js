@@ -90,3 +90,37 @@ export async function getMusteri(musteriID) {
         return { success: false, message: 'getMusteri failed' }
     }
 }
+
+export async function tedarikciID(tedarikciID) {
+    try {
+
+        const responseDb = await pool.query('SELECT * FROM tedarikci WHERE TedarikciID = ?', [tedarikciID])
+        return responseDb[0][0].TedarikciAdi
+    }
+    catch (err) {
+        return { success: false, message: 'tedarikciAdi failed' }
+    }
+}
+
+export async function getStokGiris() {
+    try {
+        const [responseDb] = await pool.query('SELECT * FROM stokgiris')
+
+        const stokGirisWithName = await Promise.all(
+            responseDb.map(async (stok) => {
+                const tedarikciAdi = await tedarikciID(stok.TedarikciID);
+                const urunID = await getUrunID(stok.UrunID);
+                const urunAdi = urunID[0][0].UrunAdi
+                return { ...stok, tedarikciAdi:tedarikciAdi, urunAdi: urunAdi };
+            })
+        );
+        
+        return stokGirisWithName
+        
+    }
+    catch (err){
+        return { success: false, message: 'getStokGiris failed' }
+    }
+}
+
+

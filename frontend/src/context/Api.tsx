@@ -20,8 +20,18 @@ interface BackendContextState {
         Miktar: null;
         musteriAdi: string;
         urunAdi: string;
-    }[]
-    
+    }[];
+    getStokGiris: () => Promise<void>;
+    getStokCikis: () => Promise<void>;
+    stokGirisler: {
+        GirisID: null;
+        UrunID: null;
+        TedarikciID: null;
+        GirisMiktari: null;
+        GirisTarihi: string;
+        tedarikciAdi: string;
+        urunAdi: string;
+    }[];
 
 }
 
@@ -49,6 +59,17 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
         urunAdi: ''
     }]);
 
+    const [stokGirisler, setStokGirisler] = useState([{
+        GirisID: null,
+        UrunID: null,
+        TedarikciID: null,
+        GirisMiktari: null,
+        GirisTarihi: '',
+        tedarikciAdi: '',
+        urunAdi: ''
+      }
+    ])
+
     const getUrunler = async () => {
         const response = await Request3('urun')
         setUrunler(response)
@@ -56,12 +77,23 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const getSiparisler = async () => {
-        console.log("sad")
         const response = await Request3('siparisler')
         setSiparisler(response)
         
        
 
+    }
+    const getStokGiris = async () => {
+        const response = await Request3('stokgiris')   
+        setStokGirisler(response) 
+       
+
+    }
+    const getStokCikis = async () => {
+        //const response = await Request3('siparisler')
+        console.log("stok cıkıs geldi")  
+        
+        
     }
 
     return (
@@ -69,8 +101,10 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
             urunler,
             getUrunler,
             getSiparisler,
-            siparisler
-            
+            siparisler,
+            getStokGiris,
+            getStokCikis,
+            stokGirisler
 
         }}>
             {children}
