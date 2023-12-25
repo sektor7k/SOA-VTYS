@@ -1,7 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { urunEkle, siparisEkle, getUrun } from "./database.js"
+import { urunEkle, siparisEkle, getUrun, getSiparisler } from "./database.js"
 const app = express();
 const port = 3030;
 
@@ -49,6 +49,19 @@ app.get("/urun", async (req, res) => {
     const urunler = await getUrun()
 
     return res.status(200).send(urunler[0])
+  }
+  catch (err) {
+    return res.status(500).send({ message: 'Server error', error: err });
+  }
+});
+
+app.get("/siparisler", async (req, res) => {
+
+  try {
+    const siparisler = await getSiparisler()
+ 
+
+    return res.status(200).send(siparisler)
   }
   catch (err) {
     return res.status(500).send({ message: 'Server error', error: err });

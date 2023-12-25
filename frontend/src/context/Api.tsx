@@ -10,6 +10,17 @@ interface BackendContextState {
         Fiyat: string;
         StokMiktari: null;
     }[];
+    getSiparisler: () => Promise<void>;
+    siparisler: {
+        SiparisID: null;
+        MusteriID: null;
+        SiparisTarihi: string;
+        ToplamTutar: string;
+        UrunID: null;
+        Miktar: null;
+        musteriAdi: string;
+        urunAdi: string;
+    }[]
     
 
 }
@@ -27,6 +38,16 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
         StokMiktari: null
     }]);
 
+    const [siparisler, setSiparisler] = useState([{
+        SiparisID: null,
+        MusteriID: null,
+        SiparisTarihi: '',
+        ToplamTutar: '',
+        UrunID: null,
+        Miktar: null,
+        musteriAdi: '',
+        urunAdi: ''
+    }]);
 
     const getUrunler = async () => {
         const response = await Request3('urun')
@@ -34,12 +55,22 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
 
     }
 
+    const getSiparisler = async () => {
+        console.log("sad")
+        const response = await Request3('siparisler')
+        setSiparisler(response)
+        
+       
+
+    }
+
     return (
         <BackendContext.Provider value={{
             urunler,
-            getUrunler
+            getUrunler,
+            getSiparisler,
+            siparisler
             
-
 
         }}>
             {children}
