@@ -111,16 +111,56 @@ export async function getStokGiris() {
                 const tedarikciAdi = await tedarikciID(stok.TedarikciID);
                 const urunID = await getUrunID(stok.UrunID);
                 const urunAdi = urunID[0][0].UrunAdi
-                return { ...stok, tedarikciAdi:tedarikciAdi, urunAdi: urunAdi };
+                return { ...stok, tedarikciAdi: tedarikciAdi, urunAdi: urunAdi };
             })
         );
-        
+
         return stokGirisWithName
-        
+
     }
-    catch (err){
+    catch (err) {
         return { success: false, message: 'getStokGiris failed' }
     }
 }
+
+export async function getStokCikis() {
+    try {
+        const [responseDb] = await pool.query('SELECT * FROM stokcikis')
+
+        const stokCikisWithName = await Promise.all(
+            responseDb.map(async (stok) => {
+                const urunID = await getUrunID(stok.UrunID);
+                const urunAdi = urunID[0][0].UrunAdi;
+                const musteriAdi = await getMusteriAdi(stok.SiparisID);
+                return { ...stok, urunAdi: urunAdi, musteriAdi: musteriAdi };
+            })
+        );
+
+        return stokCikisWithName
+    }
+    catch (err) {
+        return { success: false, message: 'getStokGiris failed' }
+    }
+}
+
+export async function getMusteriAdi(siparisID) {
+    try {
+        const responseDb = await pool.query('SELECT * FROM siparis WHERE SiparisID = ?', [siparisID])
+        const musteriID = responseDb[0][0].MusteriID
+
+        const responseDb2 = await getMusteri(musteriID)
+        return responseDb2
+
+
+    }
+    catch (err) {
+        return { success: false, message: 'getStokGiris failed' }
+    }
+}
+
+
+
+
+
 
 
