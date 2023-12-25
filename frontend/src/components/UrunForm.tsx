@@ -2,6 +2,8 @@ import {Request} from "@/backend/api"
 
 export default function UrunForm() { 
 
+    function sleep(n: number | undefined) { return new Promise(resolve => setTimeout(resolve, n)); }
+
     const formUrunEkle = async (event: any) => {
         event.preventDefault();
         const formdata = new FormData(event.target);
@@ -14,6 +16,8 @@ export default function UrunForm() {
         const response = await Request("urunekle",urunData);
 
         console.log(response)
+        await sleep(1000)
+        window.location.reload();
     
         
       };
