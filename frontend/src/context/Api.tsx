@@ -32,6 +32,15 @@ interface BackendContextState {
         tedarikciAdi: string;
         urunAdi: string;
     }[];
+    stokCikislari: {
+        CikisID: null;
+        UrunID: null;
+        SiparisID: null;
+        CikisMiktari: null;
+        CikisTarihi: string;
+        urunAdi: string;
+        musteriAdi: string;
+    }[]
 
 }
 
@@ -70,6 +79,17 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
       }
     ])
 
+    const [stokCikislari, setStokCikislari] = useState([{
+        CikisID: null,
+        UrunID: null,
+        SiparisID: null,
+        CikisMiktari: null,
+        CikisTarihi: '',
+        urunAdi: '',
+        musteriAdi: ''
+      }
+    ])
+
     const getUrunler = async () => {
         const response = await Request3('urun')
         setUrunler(response)
@@ -90,8 +110,8 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
 
     }
     const getStokCikis = async () => {
-        //const response = await Request3('siparisler')
-        console.log("stok cıkıs geldi")  
+        const response = await Request3('stokcikis')
+        setStokCikislari(response)
         
         
     }
@@ -104,7 +124,8 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
             siparisler,
             getStokGiris,
             getStokCikis,
-            stokGirisler
+            stokGirisler,
+            stokCikislari
 
         }}>
             {children}
