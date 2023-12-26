@@ -15,6 +15,11 @@ export async function urunEkle(urunAdi, urunFiyati, stokMiktari) {
         const responseDb = await pool.query(`INSERT INTO urun (UrunAdi, Fiyat, StokMiktari)
         VALUES (?, ?, ?)`, [urunAdi, urunFiyati, stokMiktari]);
 
+        const [urunler] = await getUrun()
+        const responseDB2 = await pool.query(`INSERT INTO stokgiris (UrunID, TedarikciID, GirisMiktari) 
+        VALUES (?, ?, ?)`, [ urunler.length, 2, stokMiktari]);
+
+
         return { success: true, message: 'Ürün eklendi' }
     }
     catch (err) {
