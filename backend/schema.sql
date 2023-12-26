@@ -42,7 +42,7 @@ CREATE TABLE StokGiris (
     UrunID INT,
     TedarikciID INT,
     GirisMiktari INT CHECK (GirisMiktari >= 0),
-    GirisTarihi DATE,
+    GirisTarihi TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (UrunID) REFERENCES Urun(UrunID),
     FOREIGN KEY (TedarikciID) REFERENCES Tedarikci(TedarikciID)
 );
