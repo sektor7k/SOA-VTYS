@@ -111,6 +111,7 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
     }
     const getStokCikis = async () => {
         const response = await Request3('stokcikis')
+        console.log(response)
         setStokCikislari(response)
         
         

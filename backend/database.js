@@ -37,6 +37,11 @@ export async function siparisEkle(urunID, urunAdedi) {
         const responseDb = await pool.query(`INSERT INTO siparis (MusteriID, ToplamTutar, UrunID, Miktar)
         VALUES (?, ?, ?, ?)`, [1, fiyat * urunAdedi, urunID, urunAdedi]);
 
+        const siparisler = await getSiparisler()
+
+        const responseDB2 = await pool.query(`INSERT INTO stokcikis (UrunID, SiparisID, CikisMiktari)
+        VALUES (?, ?, ?)`, [ urunID, siparisler.length, urunAdedi]);
+
         return { success: true, message: 'Sipariş Alındı' }
     }
     catch (err) {

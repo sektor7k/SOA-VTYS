@@ -32,6 +32,7 @@ export default function StokList(){
                         <td className="py-2 px-4 border-b">{stok.tedarikciAdi}</td>
                         <td className="py-2 px-4 border-b">{stok.GirisMiktari}</td>
                         <td className="py-2 px-4 border-b">{stok.GirisTarihi}</td>
+
                     </tr>
                 ))}
             </tbody>

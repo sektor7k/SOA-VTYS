@@ -18,6 +18,7 @@ export default function UrunForm() {
         console.log(response)
         await sleep(1000)
         window.location.reload();
+        
     
         
       };
