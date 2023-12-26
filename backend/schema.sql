@@ -53,7 +53,7 @@ CREATE TABLE StokCikis (
     UrunID INT,
     SiparisID INT,
     CikisMiktari INT CHECK (CikisMiktari >= 0),
-    CikisTarihi DATE,
+    CikisTarihi TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (UrunID) REFERENCES Urun(UrunID),
     FOREIGN KEY (SiparisID) REFERENCES Siparis(SiparisID)
 );
