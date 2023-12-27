@@ -1,7 +1,10 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import soap from 'soap';
+import { readFileSync } from 'fs';
 import { urunEkle, siparisEkle, getUrun, getSiparisler, getStokGiris, getStokCikis } from "./database.js"
+import pool from './database.js'
 const app = express();
 const port = 3030;
 
@@ -13,6 +16,24 @@ app.use(cors({
   origin: 'http://localhost:3000', // İstemcinin kökeni
   credentials: true // Kimlik bilgilerine izin ver
 }));
+
+const service = {
+  MyService: {
+    MyPort: {
+      GetTedarikciler: async function () {
+        try {
+          const [rows] = await pool.query('SELECT * FROM tedarikci');
+          return { tedarikciler: rows };
+        } catch (error) {
+          return { error: 'Veritabanı hatası' };
+        }
+      }
+    }
+  }
+};
+
+
+const xml = readFileSync('myservice.wsdl', 'utf8');
 
 app.post("/urunekle", async (req, res) => {
 
@@ -59,7 +80,7 @@ app.get("/siparisler", async (req, res) => {
 
   try {
     const siparisler = await getSiparisler()
- 
+
 
     return res.status(200).send(siparisler)
   }
@@ -68,28 +89,28 @@ app.get("/siparisler", async (req, res) => {
   }
 });
 
-app.get("/stokgiris", async(req, res) => {
+app.get("/stokgiris", async (req, res) => {
 
-  try{
+  try {
 
     const stokgiris = await getStokGiris()
     return res.status(200).send(stokgiris)
 
   }
-  catch(err) {
+  catch (err) {
     return res.status(200).send({ message: 'Server error', error: err })
   }
 })
 
-app.get("/stokcikis", async(req, res) => {
+app.get("/stokcikis", async (req, res) => {
 
-  try{
+  try {
 
-     const stokcikis = await getStokCikis()
+    const stokcikis = await getStokCikis()
     return res.status(200).send(stokcikis)
 
   }
-  catch(err) {
+  catch (err) {
     return res.status(200).send({ message: 'Server error', error: err })
   }
 })
@@ -99,7 +120,8 @@ app.get("/stokcikis", async(req, res) => {
 
 
 app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+  soap.listen(app, '/my-service', service, xml);
+  console.log(`SOAP service listening on http://localhost:${port}/my-service?wsdl`);
 });
 
 

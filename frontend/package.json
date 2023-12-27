@@ -9,12 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "net": "^1.0.2",
     "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18",
     "react-router-dom": "^6.20.1",
+    "soap": "^0.35.0",
+    "tls": "^0.0.1",
     "tw-elements-react": "^1.0.0-alpha2"
-
   },
   "devDependencies": {
     "@types/node": "^20",

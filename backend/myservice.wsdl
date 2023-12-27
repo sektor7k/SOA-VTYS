@@ -1,0 +1,57 @@
+<definitions
+  name="MyService"
+  targetNamespace="http://example.com/soap-service"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:tns="http://example.com/soap-service"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+  <types>
+    <xsd:schema targetNamespace="http://example.com/soap-service">
+      <xsd:element name="GetTedarikcilerRequest"/>
+      <xsd:element name="GetTedarikcilerResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="tedarikciler" type="xsd:anyType"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </types>
+
+  <message name="GetTedarikcilerMessage">
+    <part name="parameters" element="tns:GetTedarikcilerRequest"/>
+  </message>
+
+  <message name="GetTedarikcilerResponseMessage">
+    <part name="parameters" element="tns:GetTedarikcilerResponse"/>
+  </message>
+
+  <portType name="MyPortType">
+    <operation name="GetTedarikciler">
+      <input message="tns:GetTedarikcilerMessage"/>
+      <output message="tns:GetTedarikcilerResponseMessage"/>
+    </operation>
+  </portType>
+
+  <binding name="MyBinding" type="tns:MyPortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="GetTedarikciler">
+      <soap:operation soapAction="http://example.com/soap-service#GetTedarikciler"/>
+      <input>
+        <soap:body use="encoded" namespace="http://example.com/soap-service" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="http://example.com/soap-service" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="MyService">
+    <port name="MyPort" binding="tns:MyBinding">
+      <soap:address location="http://localhost:3030/my-service"/>
+    </port>
+  </service>
+</definitions>

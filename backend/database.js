@@ -169,6 +169,17 @@ export async function getMusteriAdi(siparisID) {
 }
 
 
+// export async function getTedarikciler() {
+//     try {
+//       const [rows] = await pool.query('SELECT * FROM tedarikci');
+//       return { tedarikciler: rows };
+//     } catch (error) {
+//       return { error: 'Veritabanı hatası' };
+//     }
+//   }
+
+export default pool;
+
 
 
 

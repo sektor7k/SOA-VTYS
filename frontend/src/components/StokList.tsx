@@ -3,13 +3,14 @@ import { useEffect } from "react";
 
 export default function StokList(){
 
-    const {getStokGiris, getStokCikis, stokGirisler, stokCikislari} = useBackend();
+    const {getStokGiris, getStokCikis, stokGirisler, stokCikislari, getTedarikciler} = useBackend();
 
 
     useEffect(()=>{
 
         getStokGiris()
         getStokCikis()
+        getTedarikciler()
 
     },[])
 

@@ -2,6 +2,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 import { Request, Request2, Request3 } from "../backend/api";
 import router from "next/router";
 
+
 interface BackendContextState {
     getUrunler: () => Promise<void>;
     urunler: {
@@ -40,7 +41,8 @@ interface BackendContextState {
         CikisTarihi: string;
         urunAdi: string;
         musteriAdi: string;
-    }[]
+    }[];
+    getTedarikciler: () => Promise<void>
 
 }
 
@@ -49,7 +51,7 @@ export const BackendContext = createContext<BackendContextState>({} as BackendCo
 export const useBackend = () => useContext(BackendContext);
 
 export const BackendProvider = ({ children }: { children: ReactNode }) => {
-    
+
     const [urunler, setUrunler] = useState([{
         UrunID: null,
         UrunAdi: '',
@@ -76,7 +78,7 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
         GirisTarihi: '',
         tedarikciAdi: '',
         urunAdi: ''
-      }
+    }
     ])
 
     const [stokCikislari, setStokCikislari] = useState([{
@@ -87,7 +89,7 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
         CikisTarihi: '',
         urunAdi: '',
         musteriAdi: ''
-      }
+    }
     ])
 
     const getUrunler = async () => {
@@ -99,23 +101,31 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
     const getSiparisler = async () => {
         const response = await Request3('siparisler')
         setSiparisler(response)
-        
-       
+
+
 
     }
     const getStokGiris = async () => {
-        const response = await Request3('stokgiris')   
-        setStokGirisler(response) 
-       
+        const response = await Request3('stokgiris')
+        setStokGirisler(response)
+
 
     }
     const getStokCikis = async () => {
         const response = await Request3('stokcikis')
         console.log(response)
         setStokCikislari(response)
-        
-        
+
+
     }
+
+    const getTedarikciler = async () => {
+       
+
+
+    }
+
+
 
     return (
         <BackendContext.Provider value={{
@@ -126,7 +136,8 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
             getStokGiris,
             getStokCikis,
             stokGirisler,
-            stokCikislari
+            stokCikislari,
+            getTedarikciler
 
         }}>
             {children}
