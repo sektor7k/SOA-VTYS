@@ -42,7 +42,12 @@ interface BackendContextState {
         urunAdi: string;
         musteriAdi: string;
     }[];
-    getTedarikciler: () => Promise<void>
+    getTedarikciler: () => Promise<void>;
+    tedarikciler: {
+        TedarikciID: string;
+        TedarikciAdi: string;
+        IletisimBilgisi: string;
+    }[];
 
 }
 
@@ -92,6 +97,13 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
     }
     ])
 
+    const [tedarikciler, setTedarikciler] = useState([{
+        TedarikciID: '2',
+        TedarikciAdi: 'XYZ Elektronik',
+        IletisimBilgisi: 'tedarikci2@gmail.com'
+      }
+    ]);
+
     const getUrunler = async () => {
         const response = await Request3('urun')
         setUrunler(response)
@@ -101,6 +113,7 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
     const getSiparisler = async () => {
         const response = await Request3('siparisler')
         setSiparisler(response)
+        
 
 
 
@@ -121,7 +134,9 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
 
     const getTedarikciler = async () => {
        
-
+        const response = await Request3('tedarikci');
+        setTedarikciler(response.tedarikciler)
+        console.log(response.tedarikciler)
 
     }
 
@@ -137,7 +152,8 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
             getStokCikis,
             stokGirisler,
             stokCikislari,
-            getTedarikciler
+            getTedarikciler,
+            tedarikciler
 
         }}>
             {children}
