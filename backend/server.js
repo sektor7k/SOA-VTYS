@@ -5,6 +5,7 @@ import soap from 'soap';
 import { readFileSync } from 'fs';
 import { urunEkle, siparisEkle, getUrun, getSiparisler, getStokGiris, getStokCikis } from "./database.js"
 import pool from './database.js'
+import callSoapService from './client.js'
 const app = express();
 const port = 3030;
 
@@ -115,6 +116,15 @@ app.get("/stokcikis", async (req, res) => {
   }
 })
 
+app.get("/tedarikci", async (req, res) =>{
+   try {
+
+    const tedarikciler = await callSoapService();
+    return res.status(200).send(tedarikciler)
+   } catch (err) {
+    return res.status(200).send({ message: 'Server error', error: err })
+   }
+})
 
 
 
