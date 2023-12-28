@@ -9,7 +9,7 @@ const mg = mailgun({ apiKey, domain });
 
 const sendEmail = async (to, subject, text) => {
   const data = {
-    from: 'your-email@example.com', // Gönderen e-posta adresini değiştirin
+    from: 'famasproject@gmail.com', // Gönderen e-posta adresini değiştirin
     to,
     subject,
     text,

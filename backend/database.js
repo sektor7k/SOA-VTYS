@@ -1,6 +1,6 @@
 import mysql from "mysql2";
 import dotenv from "dotenv";
-import {sendEmailTedarikci} from "./mail.js"
+import {sendEmailTedarikci, sendEmailMusteri} from "./mail.js"
 
 dotenv.config()
 
@@ -43,6 +43,7 @@ export async function siparisEkle(urunID, urunAdedi) {
 
         const resgetUrunID = await getUrunID(urunID);
         const fiyat = resgetUrunID[0][0].Fiyat
+        const urunAdi = resgetUrunID[0][0].UrunAdi
 
         const responseDb = await pool.query(`INSERT INTO siparis (MusteriID, ToplamTutar, UrunID, Miktar)
         VALUES (?, ?, ?, ?)`, [1, fiyat * urunAdedi, urunID, urunAdedi]);
@@ -51,6 +52,12 @@ export async function siparisEkle(urunID, urunAdedi) {
 
         const responseDB2 = await pool.query(`INSERT INTO stokcikis (UrunID, SiparisID, CikisMiktari)
         VALUES (?, ?, ?)`, [ urunID, siparisler.length, urunAdedi]);
+
+        const toEmail = await getMusteriMail(3);
+        const musteriAdi = await getMusteri(3);
+        const toplamTutar = urunAdedi*fiyat;
+
+        sendEmailMusteri(toEmail, musteriAdi, urunAdi, fiyat, urunAdedi, toplamTutar)
 
         return { success: true, message: 'Sipariş Alındı' }
     }
@@ -110,6 +117,17 @@ export async function getMusteri(musteriID) {
         return { success: false, message: 'getMusteri failed' }
     }
 }
+
+export async function getMusteriMail(musteriID) {
+    try {
+        const responseDb = await pool.query('SELECT * FROM musteri WHERE MusteriID = ?', [musteriID])
+        return responseDb[0][0].IletisimBilgisi
+    }
+    catch (err) {
+        return { success: false, message: 'getMusteri failed' }
+    }
+}
+
 
 export async function tedarikciID(tedarikciID) {
     try {
