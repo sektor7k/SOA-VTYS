@@ -56,8 +56,9 @@ export async function siparisEkle(urunID, urunAdedi) {
         const toEmail = await getMusteriMail(3);
         const musteriAdi = await getMusteri(3);
         const toplamTutar = urunAdedi*fiyat;
+        console.log(toEmail, musteriAdi, urunAdi, fiyat, urunAdedi, toplamTutar)
 
-        sendEmailMusteri(toEmail, musteriAdi, urunAdi, fiyat, urunAdedi, toplamTutar)
+        //sendEmailMusteri(toEmail, musteriAdi, urunAdi, fiyat, urunAdedi, toplamTutar)
 
         return { success: true, message: 'Sipariş Alındı' }
     }
