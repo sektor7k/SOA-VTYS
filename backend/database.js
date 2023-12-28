@@ -1,5 +1,6 @@
 import mysql from "mysql2";
 import dotenv from "dotenv";
+import {sendEmailTedarikci} from "./mail.js"
 
 dotenv.config()
 
@@ -19,6 +20,15 @@ export async function urunEkle(urunAdi, urunFiyati, stokMiktari) {
         const responseDB2 = await pool.query(`INSERT INTO stokgiris (UrunID, TedarikciID, GirisMiktari) 
         VALUES (?, ?, ?)`, [ urunler.length, 2, stokMiktari]);
 
+        const [tedarikciAdi] = await pool.query(`SELECT * FROM tedarikci WHERE TedarikciID = ? `,[3])
+
+        const toEmail = tedarikciAdi[0].IletisimBilgisi;
+        const tedarikciMail = tedarikciAdi[0].TedarikciAdi
+
+        
+        //sendEmailTedarikci(toEmail, tedarikciMail, urunAdi, urunFiyati, stokMiktari)
+
+        
 
         return { success: true, message: 'Ürün eklendi' }
     }
@@ -169,14 +179,7 @@ export async function getMusteriAdi(siparisID) {
 }
 
 
-// export async function getTedarikciler() {
-//     try {
-//       const [rows] = await pool.query('SELECT * FROM tedarikci');
-//       return { tedarikciler: rows };
-//     } catch (error) {
-//       return { error: 'Veritabanı hatası' };
-//     }
-//   }
+
 
 export default pool;
 
