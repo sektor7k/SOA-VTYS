@@ -1,6 +1,7 @@
 import mysql from "mysql2";
 import dotenv from "dotenv";
 import {sendEmailTedarikci, sendEmailMusteri} from "./mail.js"
+import { sendEmailMusteri2, sendEmailTedarikci2 } from "./sendMail2.js";
 
 dotenv.config()
 
@@ -25,8 +26,9 @@ export async function urunEkle(urunAdi, urunFiyati, stokMiktari) {
         const toEmail = tedarikciAdi[0].IletisimBilgisi;
         const tedarikciMail = tedarikciAdi[0].TedarikciAdi
 
+        console.log(toEmail, tedarikciMail, urunAdi, urunFiyati, stokMiktari)
         
-        //sendEmailTedarikci(toEmail, tedarikciMail, urunAdi, urunFiyati, stokMiktari)
+        sendEmailTedarikci2(toEmail, tedarikciMail, urunAdi, urunFiyati, stokMiktari)
 
         
 
@@ -46,19 +48,22 @@ export async function siparisEkle(urunID, urunAdedi) {
         const urunAdi = resgetUrunID[0][0].UrunAdi
 
         const responseDb = await pool.query(`INSERT INTO siparis (MusteriID, ToplamTutar, UrunID, Miktar)
-        VALUES (?, ?, ?, ?)`, [1, fiyat * urunAdedi, urunID, urunAdedi]);
+        VALUES (?, ?, ?, ?)`, [3, fiyat * urunAdedi, urunID, urunAdedi]);
 
         const siparisler = await getSiparisler()
+        //console.log(siparisler)
 
         const responseDB2 = await pool.query(`INSERT INTO stokcikis (UrunID, SiparisID, CikisMiktari)
         VALUES (?, ?, ?)`, [ urunID, siparisler.length, urunAdedi]);
+
+        //console.log(responseDB2)
 
         const toEmail = await getMusteriMail(3);
         const musteriAdi = await getMusteri(3);
         const toplamTutar = urunAdedi*fiyat;
         console.log(toEmail, musteriAdi, urunAdi, fiyat, urunAdedi, toplamTutar)
 
-        //sendEmailMusteri(toEmail, musteriAdi, urunAdi, fiyat, urunAdedi, toplamTutar)
+        sendEmailMusteri2(toEmail, musteriAdi, urunAdi, fiyat, urunAdedi, toplamTutar)
 
         return { success: true, message: 'Sipariş Alındı' }
     }
