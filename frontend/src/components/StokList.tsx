@@ -10,7 +10,6 @@ export default function StokList(){
 
         getStokGiris()
         getStokCikis()
-        getTedarikciler()
 
     },[])
 

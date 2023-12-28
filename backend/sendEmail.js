@@ -2,8 +2,8 @@
 
 import mailgun from 'mailgun-js';
 
-const apiKey = 'e368d7746b1eea4f3a2ce87e804319b9-1900dca6-28b335cc';
-const domain = 'sandboxeaf8a301705f4cef80ece3ece5d525ce.mailgun.org';
+const apiKey = '7e1634cf0fe373bf27517f4a987e7e12-1900dca6-8a170a70';
+const domain = 'sandbox303ed995ed024dbca94d68ae502a5aa6.mailgun.org';
 
 const mg = mailgun({ apiKey, domain });
 
