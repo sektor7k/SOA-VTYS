@@ -28,7 +28,7 @@ export async function urunEkle(urunAdi, urunFiyati, stokMiktari) {
 
         console.log(toEmail, tedarikciMail, urunAdi, urunFiyati, stokMiktari)
         
-        sendEmailTedarikci2(toEmail, tedarikciMail, urunAdi, urunFiyati, stokMiktari)
+        //sendEmailTedarikci2(toEmail, tedarikciMail, urunAdi, urunFiyati, stokMiktari)
 
         
 
@@ -63,7 +63,7 @@ export async function siparisEkle(urunID, urunAdedi) {
         const toplamTutar = urunAdedi*fiyat;
         console.log(toEmail, musteriAdi, urunAdi, fiyat, urunAdedi, toplamTutar)
 
-        sendEmailMusteri2(toEmail, musteriAdi, urunAdi, fiyat, urunAdedi, toplamTutar)
+        //sendEmailMusteri2(toEmail, musteriAdi, urunAdi, fiyat, urunAdedi, toplamTutar)
 
         return { success: true, message: 'Sipariş Alındı' }
     }
