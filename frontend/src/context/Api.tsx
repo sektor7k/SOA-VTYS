@@ -44,10 +44,16 @@ interface BackendContextState {
     }[];
     getTedarikciler: () => Promise<void>;
     tedarikciler: {
-        TedarikciID: string;
+        TedarikciID: null;
         TedarikciAdi: string;
         IletisimBilgisi: string;
     }[];
+    getMusteri: () => Promise<void>;
+    musteriler: {
+        MusteriID: null;
+        MusteriAdi: string;
+        IletisimBilgisi: string;
+    }[]
 
 }
 
@@ -98,11 +104,18 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
     ])
 
     const [tedarikciler, setTedarikciler] = useState([{
-        TedarikciID: '2',
-        TedarikciAdi: 'XYZ Elektronik',
-        IletisimBilgisi: 'tedarikci2@gmail.com'
+        TedarikciID: null,
+        TedarikciAdi: '',
+        IletisimBilgisi: ''
       }
     ]);
+
+    const [musteriler, setMusteriler] = useState([{
+        MusteriID: null,
+        MusteriAdi: '',
+        IletisimBilgisi: ''
+      }
+    ])
 
     const getUrunler = async () => {
         const response = await Request3('urun')
@@ -140,6 +153,14 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
 
     }
 
+    const getMusteri = async () => {
+       
+        const response = await Request3('musteri');
+        setMusteriler(response);
+
+    }
+
+
 
 
     return (
@@ -153,7 +174,9 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
             stokGirisler,
             stokCikislari,
             getTedarikciler,
-            tedarikciler
+            tedarikciler,
+            getMusteri,
+            musteriler
 
         }}>
             {children}

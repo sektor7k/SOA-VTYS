@@ -3,10 +3,11 @@ import { useEffect } from "react";
 
 export default function SiparisList(){
 
-    const {getSiparisler, siparisler} = useBackend();
+    const {getSiparisler, siparisler, getMusteri} = useBackend();
 
     useEffect(()=>{
         getSiparisler()
+        getMusteri()
 
     },[])
 
