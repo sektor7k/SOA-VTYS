@@ -56,7 +56,7 @@ export default function SiparisForm() {
 
             <form className="max-w-sm mx-auto pt-52" onSubmit={formSiparisOlustur}>
                 <label htmlFor="urunAdi" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Select a product
+                    Bir ürün şeçin
                 </label>
                 <select
                     id="urunAdi"
