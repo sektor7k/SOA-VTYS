@@ -203,6 +203,14 @@ export async function getMusteriAdi(siparisID) {
 }
 
 
+export async function getMusteri2(){
+
+    const response = await pool.query('SELECT * FROM musteri');
+    return response[0]
+}
+
+
+
 
 
 export default pool;

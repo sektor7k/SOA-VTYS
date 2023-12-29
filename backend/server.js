@@ -3,9 +3,11 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import soap from 'soap';
 import { readFileSync } from 'fs';
-import { urunEkle, siparisEkle, getUrun, getSiparisler, getStokGiris, getStokCikis } from "./database.js"
+import { urunEkle, siparisEkle, getUrun, getSiparisler, getStokGiris, getStokCikis, getMusteri2 } from "./database.js"
 import pool from './database.js'
 import callSoapService from './client.js'
+import main from './dynamic_codegen/greeter_client.js'
+
 const app = express();
 const port = 3030;
 
@@ -69,6 +71,8 @@ app.get("/urun", async (req, res) => {
 
   try {
     const urunler = await getUrun()
+    //const customer = await getMusteri2()
+    //console.log(customer)
 
     return res.status(200).send(urunler[0])
   }
@@ -116,15 +120,29 @@ app.get("/stokcikis", async (req, res) => {
   }
 })
 
-app.get("/tedarikci", async (req, res) =>{
-   try {
+app.get("/tedarikci", async (req, res) => {
+  try {
 
     const tedarikciler = await callSoapService();
     return res.status(200).send(tedarikciler)
-   } catch (err) {
+  } catch (err) {
     return res.status(200).send({ message: 'Server error', error: err })
-   }
+  }
 })
+
+app.get("/musteri", async (req, res) => {
+  try {
+
+    const musteriler = await main();
+    return res.status(200).send(musteriler)
+
+
+  } catch (err) {
+    return res.status(200).send({ message: 'Server error', error: err })
+  }
+})
+
+
 
 
 
